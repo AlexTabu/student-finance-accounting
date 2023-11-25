@@ -34,7 +34,7 @@ const Layout = observer(({ children }) => {
     return (
         <div className="w-full h-full">
             <header
-                className={`fixed w-full h-1/6 bg-purple-700 text-white flex justify-end items-center
+                className={`z-50 fixed w-full h-1/6 bg-purple-700 text-white flex justify-end items-center
                     space-x-3 p-4 transition-all duration-300 ${visible ? "opacity-100" : "opacity-0"}`}
             >
                 {store.isAuthenticated && 
@@ -44,7 +44,7 @@ const Layout = observer(({ children }) => {
             </header>
             <main>{children}</main>
             <footer className="w-full h-1/6 bg-purple-700 text-white p-4 bottom-0 flex justify-center items-center">
-                All nonexistent rights are protected by the license that I just made up :)
+                All nonexistent rights are protected by the license that I just made up 😜
             </footer>
         </div>
     );

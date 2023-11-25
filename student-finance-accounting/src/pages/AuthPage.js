@@ -28,14 +28,14 @@ const AuthPage = observer(() => {
                             src="/panda.gif"
                             alt="Panda"
                         />
-                        <h2 className="mt-3 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                        <h2 className="mt-3 text-center text-2xl font-bold leading-9 tracking-tight text-black">
                             Sign in to your account
                         </h2>
                     </div>
                     <div className=" sm:mx-auto sm:w-full sm:max-w-sm">
                         <form className="space-y-3" action="#" method="POST" onSubmit={handleLogin}>
                             <div>
-                                <label htmlFor="login" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label htmlFor="login" className="block text-sm font-medium leading-6 text-black">
                                     Login
                                 </label>
                                 <div className="mt-2">
@@ -47,7 +47,7 @@ const AuthPage = observer(() => {
                                         type="text"
                                         autoComplete="username"
                                         required
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1
+                                        className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1
                                             ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset
                                             focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
@@ -55,7 +55,7 @@ const AuthPage = observer(() => {
                             </div>
                             <div>
                                 <div className="flex items-center justify-between">
-                                    <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                                    <label htmlFor="password" className="block text-sm font-medium leading-6 text-black">
                                         Password
                                     </label>
                                 </div>
@@ -68,7 +68,7 @@ const AuthPage = observer(() => {
                                         type="password"
                                         autoComplete="current-password"
                                         required
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1
+                                        className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1
                                             ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset
                                             focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
@@ -88,10 +88,10 @@ const AuthPage = observer(() => {
                     </div>
                 </div>
                 <div className="flex-1 flex-col justify-center px-6 py-32 lg:px-8">
-                    <h1 className="text-6xl font-bold text-gray-900">
+                    <h1 className="text-6xl font-bold text-black">
                         With SFA, even a poor student can buy a panda!
                     </h1>
-                    <h1 className="ml-px mt-2 text-3xl font-bold text-gray-900">But it is not exactly :)</h1>
+                    <h1 className="ml-px mt-2 text-3xl font-bold text-black">But it is not exactly :)</h1>
                 </div>
             </div>
         </div>

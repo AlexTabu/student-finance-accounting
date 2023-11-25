@@ -8,35 +8,39 @@ import InstructionsPage from "./pages/InstructionsPage";
 import DeveloperPage from "./pages/DeveloperPage";
 import store from './store';
 import { observer } from "mobx-react-lite";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+AOS.init();
 
 let routes = [
-  {path: "/results", element: <ResultsPage />},
-  {path: "/data", element: <DataPage />},
-  {path: "/instructions", element: <InstructionsPage />},
-  {path: "/developer", element: <DeveloperPage />},
-  {path: "/", element: <AuthPage />}
+    { path: "/results", element: <ResultsPage /> },
+    { path: "/data", element: <DataPage /> },
+    { path: "/instructions", element: <InstructionsPage /> },
+    { path: "/developer", element: <DeveloperPage /> },
+    { path: "/", element: <AuthPage /> }
 ];
 
-const App = observer(() =>  {
-  return (
-    <Router>
-      <Routes>
-        {routes.map((route, index) =>  
-          <Route
-            key={index}
-            path={route.path}
-            element={
-              (route.path === '/' || !store.isAuthenticated) ?
-              <AuthPage /> :
-              <Layout>
-                {route.element}
-              </Layout>
-            }
-          />
-        )}
-      </Routes>
-    </Router>
-  );
+const App = observer(() => {
+    return (
+        <Router>
+            <Routes>
+                {routes.map((route, index) =>
+                    <Route
+                        key={index}
+                        path={route.path}
+                        element={
+                            (route.path === '/' || !store.isAuthenticated) ?
+                                <AuthPage /> :
+                                <Layout>
+                                    {route.element}
+                                </Layout>
+                        }
+                    />
+                )}
+            </Routes>
+        </Router>
+    );
 });
 
 export default App;
