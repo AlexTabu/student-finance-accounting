@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 
 const ResultsPage = observer(() => {
   return (
-    <div className="h-full bg-purple-700 text-white p-4">
+    <div className="h-full bg-white text-black p-4">
       <h1>Results Page</h1>
       <ul>
         <li>Coffee</li>

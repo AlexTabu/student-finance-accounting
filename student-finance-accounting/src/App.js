@@ -9,15 +9,15 @@ import DeveloperPage from "./pages/DeveloperPage";
 import store from './store';
 import { observer } from "mobx-react-lite";
 
-const App = observer(() =>  {
-  let routes = [
-    {path: "/results", element: <ResultsPage />},
-    {path: "/data", element: <DataPage />},
-    {path: "/instructions", element: <InstructionsPage />},
-    {path: "/developer", element: <DeveloperPage />},
-    {path: "/", element: <AuthPage />}
-  ];
+let routes = [
+  {path: "/results", element: <ResultsPage />},
+  {path: "/data", element: <DataPage />},
+  {path: "/instructions", element: <InstructionsPage />},
+  {path: "/developer", element: <DeveloperPage />},
+  {path: "/", element: <AuthPage />}
+];
 
+const App = observer(() =>  {
   return (
     <Router>
       <Routes>
