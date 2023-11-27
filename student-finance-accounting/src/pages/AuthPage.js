@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
-import store from "../store";
+import appStore from "../stores/AppStore";
 
 const AuthPage = observer(() => {
     const [login, setLogin] = useState('');
@@ -11,7 +11,7 @@ const AuthPage = observer(() => {
     const handleLogin = (e) => {
         e.preventDefault();
         if (login === "testLogin22" && password === "s#dDA23@44#Ds") {
-            store.setAuthenticated(true);
+            appStore.setAuthenticated(true);
             navigate("/results");
         } else {
             window.alert('Invalid credentials!')
@@ -36,7 +36,7 @@ const AuthPage = observer(() => {
                         <form className="space-y-3" action="#" method="POST" onSubmit={handleLogin}>
                             <div>
                                 <label htmlFor="login" className="block text-sm font-medium leading-6 text-black">
-                                    Login
+                                    Username
                                 </label>
                                 <div className="mt-2">
                                     <input
@@ -45,7 +45,6 @@ const AuthPage = observer(() => {
                                         value={login}
                                         onChange={e => setLogin(e.target.value)}
                                         type="text"
-                                        autoComplete="username"
                                         required
                                         className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1
                                             ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset
@@ -66,7 +65,6 @@ const AuthPage = observer(() => {
                                         value={password}
                                         onChange={e => setPassword(e.target.value)}
                                         type="password"
-                                        autoComplete="current-password"
                                         required
                                         className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1
                                             ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset

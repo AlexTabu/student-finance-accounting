@@ -6,7 +6,7 @@ import ResultsPage from "./pages/ResultsPage";
 import DataPage from "./pages/DataPage";
 import InstructionsPage from "./pages/InstructionsPage";
 import DeveloperPage from "./pages/DeveloperPage";
-import store from './store';
+import appStore from './stores/AppStore';
 import { observer } from "mobx-react-lite";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -30,7 +30,7 @@ const App = observer(() => {
                         key={index}
                         path={route.path}
                         element={
-                            (route.path === '/' || !store.isAuthenticated) ?
+                            (route.path === '/' || !appStore.isAuthenticated) ?
                                 <AuthPage /> :
                                 <Layout>
                                     {route.element}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import store from "../store";
+import appStore from "../stores/AppStore";
 import StyledLink from "./StyledLink";
 
 let links = [
@@ -37,7 +37,7 @@ const Layout = observer(({ children }) => {
                 className={`z-50 fixed w-full h-1/6 bg-purple-700 text-white flex justify-end items-center
                     space-x-3 p-4 transition-all duration-300 ${visible ? "opacity-100" : "opacity-0"}`}
             >
-                {store.isAuthenticated && 
+                {appStore.isAuthenticated && 
                     links.map((link, index) => <StyledLink key={index} path={link.path} name={link.name} />)
                 }
                 <StyledLink path='/' name='Logout' />
