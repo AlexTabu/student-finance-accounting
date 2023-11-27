@@ -23,7 +23,7 @@ const ResultsPage = observer(() => {
                     alt="Money"
                 />
             </div>
-            <div className=" h-full text-black bg-white">
+            <div className="h-full bg-white">
                 <ReportTable />
             </div>
         </div>

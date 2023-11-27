@@ -89,7 +89,7 @@ const AuthPage = observer(() => {
                     <h1 className="text-6xl font-bold text-black">
                         With SFA, even a poor student can buy a panda!
                     </h1>
-                    <h1 className="ml-px mt-2 text-3xl font-bold text-black">But it is not exactly :)</h1>
+                    <h2 className="ml-px mt-2 text-3xl font-bold text-black">But it is not exactly :)</h2>
                 </div>
             </div>
         </div>
