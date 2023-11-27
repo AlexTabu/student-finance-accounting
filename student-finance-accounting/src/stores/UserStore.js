@@ -7,6 +7,7 @@ const UserStore = types.model("UserStore", {
     totalSavingsEur: 0,
     reports: types.array(
         types.model({
+            monthNumber: types.number,
             month: types.string,
             incomeUah: types.number,
             expensesUah: types.number,
@@ -21,14 +22,15 @@ const UserStore = types.model("UserStore", {
     }
 }))
 .actions((self) => ({
-    setReport: flow(function* ({ month, incomeUah, expensesUah }) {
-        let savingsUah = incomeUah > expensesUah ? incomeUah - expensesUah : 0;
+    createReport: flow(function* ({monthNumber, month, incomeUah, expensesUah }) {
+        const savingsUah = incomeUah > expensesUah ? incomeUah - expensesUah : 0;
 
         self.totalSavingsUah = self.totalSavingsUah + savingsUah;
         self.totalSavingsUsd = yield convertUah(self.totalSavingsUah, 'USD');
         self.totalSavingsEur = yield convertUah(self.totalSavingsUah, 'EUR');
 
         self.reports.push({
+            monthNumber,
             month,
             incomeUah,
             expensesUah,
@@ -36,10 +38,23 @@ const UserStore = types.model("UserStore", {
             savingsUsd: yield convertUah(savingsUah, 'USD')
         });
     }),
-    removeReport(report) {
+    deleteReport(report) {
         let filteredReports = self.reports.filter(el => el.month !== report.month);
         self.reports = filteredReports;
     },
+    updateReport: flow(function* ({monthNumber, incomeUah, expensesUah }) {      
+        const savingsUah = incomeUah > expensesUah ? incomeUah - expensesUah : 0;
+        const report = self.reports.find(report => report.monthNumber === monthNumber);
+
+        self.totalSavingsUah = self.totalSavingsUah - report.savingsUah + savingsUah;
+        self.totalSavingsUsd = yield convertUah(self.totalSavingsUah, 'USD');
+        self.totalSavingsEur = yield convertUah(self.totalSavingsUah, 'EUR');
+
+        report.incomeUah = incomeUah;
+        report.expensesUah = expensesUah;
+        report.savingsUah = savingsUah;
+        report.savingsUsd = yield convertUah(savingsUah, 'USD');
+    }),
 }));
 
 const userStore = UserStore.create();
