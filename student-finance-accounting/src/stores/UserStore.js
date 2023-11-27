@@ -1,12 +1,15 @@
-import { types } from "mobx-state-tree";
-import { convertUahToUsd } from "../helpers/UsdConverter";
+import { flow, types } from "mobx-state-tree";
+import { convertUah } from "../helpers/UsdConverter";
 
 const UserStore = types.model("UserStore", {
+    totalSavingsUah: 0,
+    totalSavingsUsd: 0,
+    totalSavingsEur: 0,
     reports: types.array(
         types.model({
             month: types.string,
-            income: types.number,
-            expenses: types.number,
+            incomeUah: types.number,
+            expensesUah: types.number,
             savingsUah: types.number,
             savingsUsd: types.number,
         })
@@ -18,17 +21,21 @@ const UserStore = types.model("UserStore", {
     }
 }))
 .actions((self) => ({
-    setReport({month, income, expenses}) {
-        let savingsUah = income > expenses ? income - expenses : 0;
+    setReport: flow(function* ({ month, incomeUah, expensesUah }) {
+        let savingsUah = incomeUah > expensesUah ? incomeUah - expensesUah : 0;
+
+        self.totalSavingsUah = self.totalSavingsUah + savingsUah;
+        self.totalSavingsUsd = yield convertUah(self.totalSavingsUah, 'USD');
+        self.totalSavingsEur = yield convertUah(self.totalSavingsUah, 'EUR');
 
         self.reports.push({
             month,
-            income,
-            expenses,
+            incomeUah,
+            expensesUah,
             savingsUah: savingsUah,
-            savingsUsd: convertUahToUsd(savingsUah)
+            savingsUsd: yield convertUah(savingsUah, 'USD')
         });
-    },
+    }),
     removeReport(report) {
         let filteredReports = self.reports.filter(el => el.month !== report.month);
         self.reports = filteredReports;

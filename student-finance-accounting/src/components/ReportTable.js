@@ -6,16 +6,20 @@ import userStore from "../stores/UserStore";
 import StyledSavings from "./StyledSavings";
 
 let testReports = [
-    { month: 'January', income: 300, expenses: 200 },
-    { month: 'February', income: 350, expenses: 200 },
-    { month: 'March', income: 380, expenses: 200 },
-    { month: 'April', income: 310, expenses: 200 },
-    { month: 'May', income: 390, expenses: 200 },
+    { month: 'January', incomeUah: 300, expensesUah: 200 },
+    { month: 'February', incomeUah: 350, expensesUah: 200 },
+    { month: 'March', incomeUah: 380, expensesUah: 200 },
+    { month: 'April', incomeUah: 310, expensesUah: 200 },
+    { month: 'May', incomeUah: 390, expensesUah: 200 },
 ];
 
-testReports.forEach((report) => {
-    userStore.setReport(report);
-});
+const addReports = async () => {
+    for (const report of testReports) {
+        await userStore.setReport(report);
+    }
+};
+
+addReports();
 
 let tealHoverStyle = 'hover:bg-teal-500';
 let purpleHoverStyle = 'hover:bg-purple-700'
@@ -62,9 +66,9 @@ const ReportTable = observer(() => {
                     </h1>
                     <div className="flex flex-row items-center max-w-full my-10 text-white space-x-10">
                         {[
-                            {savings: 100, animationDelay: 100, src: '/hryvnia.png', alt: 'UAH'},
-                            {savings: 100, animationDelay: 300, src: '/dollar.png', alt: 'USD'},
-                            {savings: 100, animationDelay: 500, src: '/euro.png', alt: 'EUR'},
+                            {savings: userStore.totalSavingsUah, animationDelay: 100, src: '/hryvnia.png', alt: 'UAH'},
+                            {savings: userStore.totalSavingsUsd, animationDelay: 300, src: '/dollar.png', alt: 'USD'},
+                            {savings: userStore.totalSavingsEur, animationDelay: 500, src: '/euro.png', alt: 'EUR'},
                         ].map(item => <StyledSavings saving={item} />)}
                     </div>
                 </div>
@@ -101,10 +105,10 @@ const ReportTable = observer(() => {
                                     {report.month}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {report.income}
+                                    {report.incomeUah}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {report.expenses}
+                                    {report.expensesUah}
                                 </td>
                                 <td className="px-6 py-4">
                                     {report.savingsUah}
