@@ -4,8 +4,8 @@ import appStore from "../stores/AppStore";
 import StyledLink from "./StyledLink";
 
 let links = [
-    { path: '/results', name: 'Results' },
-    { path: '/data', name: 'Data' },
+    { path: '/results', name: 'Reports' },
+    { path: '/data', name: 'Add report' },
     { path: '/instructions', name: 'Instructions' },
     { path: '/developer', name: 'Developer' }
 ];
