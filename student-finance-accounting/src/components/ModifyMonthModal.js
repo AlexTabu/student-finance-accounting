@@ -36,9 +36,10 @@ const ModifyMonthModal = observer(({ report, handleClose }) => {
                 right-0 left-0 bottom-0 z-50 justify-center flex items-center w-full md:inset-0 h-full"
         >
             <div className="relative p-4 w-full max-w-md max-h-full">
-                <div className="relative bg-white rounded-md shadow bg-gray-700">
+                <div className="relative rounded-md shadow bg-gray-700">
                     <div
-                        className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
+                        className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600"
+                    >
                         <h3 className="text-lg font-semibold text-white">
                             {'Edit report for ' + report.month}
                         </h3>
@@ -93,8 +94,8 @@ const ModifyMonthModal = observer(({ report, handleClose }) => {
                                     pattern="[0-9]*"
                                     min='1'
                                     className="outline-none bg-gray-600 border border-gray-500 text-white
-                                        text-sm font-bold rounded-md focus:ring focus:ring-purple-700 focus:border-0 block
-                                        w-full p-2.5"
+                                        text-sm font-bold rounded-md focus:ring focus:ring-purple-700
+                                        focus:border-0 block w-full p-2.5"
                                     required=""
                                 />
                             </div>
