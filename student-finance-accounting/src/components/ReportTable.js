@@ -1,30 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import StyledButton from "./StyledButton";
 import { observer } from "mobx-react-lite";
 import "aos/dist/aos.css";
 import userStore from "../stores/UserStore";
 import StyledSavings from "./StyledSavings";
-
-let testReports = [
-    { month: 'January', incomeUah: 300, expensesUah: 200 },
-    { month: 'February', incomeUah: 350, expensesUah: 200 },
-    { month: 'March', incomeUah: 380, expensesUah: 200 },
-    { month: 'April', incomeUah: 310, expensesUah: 200 },
-    { month: 'May', incomeUah: 390, expensesUah: 200 },
-];
-
-const addReports = async () => {
-    for (const report of testReports) {
-        await userStore.setReport(report);
-    }
-};
-
-addReports();
-
-let tealHoverStyle = 'hover:bg-teal-500';
-let purpleHoverStyle = 'hover:bg-purple-700'
+import ModifyMonthModal from "./ModifyMonthModal";
+import { purpleHoverStyle, tealHoverStyle } from "../constants";
+import { useNavigate } from "react-router-dom";
 
 const ReportTable = observer(() => {
+    const [monthReportToModify, setMonthReportToModify] = useState(null);
+    const navigate = useNavigate();
+
     return (
         !userStore.reports.length
             ?
@@ -47,7 +34,7 @@ const ReportTable = observer(() => {
                     data-aos-duration="800"
                     data-aos-once="true"
                 >
-                    <StyledButton text='Get started' hoverStyle={tealHoverStyle} />
+                    <StyledButton text='Get started' hoverStyle={tealHoverStyle} clickHandler={() => navigate("/data")}/>
                 </div>
             </div>
             :
@@ -66,10 +53,10 @@ const ReportTable = observer(() => {
                     </h1>
                     <div className="flex flex-row items-center max-w-full my-10 text-white space-x-10">
                         {[
-                            {savings: userStore.totalSavingsUah, animationDelay: 100, src: '/hryvnia.png', alt: 'UAH'},
-                            {savings: userStore.totalSavingsUsd, animationDelay: 300, src: '/dollar.png', alt: 'USD'},
-                            {savings: userStore.totalSavingsEur, animationDelay: 500, src: '/euro.png', alt: 'EUR'},
-                        ].map(item => <StyledSavings saving={item} />)}
+                            { savings: userStore.totalSavingsUah, animationDelay: 100, src: '/hryvnia.png', alt: 'UAH' },
+                            { savings: userStore.totalSavingsUsd, animationDelay: 300, src: '/dollar.png', alt: 'USD' },
+                            { savings: userStore.totalSavingsEur, animationDelay: 500, src: '/euro.png', alt: 'EUR' },
+                        ].map((item, index) => <StyledSavings key={index} saving={item} />)}
                     </div>
                 </div>
                 <table className="w-full text-sm text-left rtl:text-right text-black">
@@ -96,10 +83,10 @@ const ReportTable = observer(() => {
                         </tr>
                     </thead>
                     <tbody>
-                        {userStore.reports.map((report, index) =>
-                            <tr className="bg-sky-500 font-bold border-b-2 border-black">
+                        {userStore.reports.slice().sort((a, b) => a.monthNumber - b.monthNumber).map((report, index) =>
+                            <tr key={index} className="bg-sky-500 font-bold border-b-2 border-black">
                                 <td scope="row" className="px-6 py-4">
-                                    {index + 1}
+                                    {report.monthNumber}
                                 </td>
                                 <td scope="row" className="px-6 py-4">
                                     {report.month}
@@ -117,15 +104,18 @@ const ReportTable = observer(() => {
                                     {report.savingsUsd}
                                 </td>
                                 <td className="px-6 py-4">
-                                    <StyledButton text='Edit' hoverStyle={purpleHoverStyle} />
+                                    <StyledButton text='Edit' hoverStyle={purpleHoverStyle} clickHandler={() => setMonthReportToModify(report)} />
                                 </td>
                                 <td className="px-6 py-4">
-                                    <StyledButton text='Delete' hoverStyle={purpleHoverStyle} clickHandler={() => userStore.removeReport(report)}/>
+                                    <StyledButton text='Delete' hoverStyle={purpleHoverStyle} clickHandler={() => userStore.deleteReport(report)} />
                                 </td>
                             </tr>
                         )}
                     </tbody>
                 </table>
+                {monthReportToModify &&
+                    <ModifyMonthModal report={monthReportToModify} handleClose={() => setMonthReportToModify(null)} />
+                }
             </div>
     );
 });
