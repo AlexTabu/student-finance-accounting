@@ -8,7 +8,7 @@ const ResultsPage = observer(() => {
         <div>
             <div className="flex h-full text-black p-4 bg-purple-700">
                 <h1
-                    className="flex-1 flex-col justify-center text-5xl font-bold mt-16"
+                    className="flex-1 flex-col justify-center text-5xl font-bold mt-20"
                     data-aos="fade-right"
                     data-aos-delay="100"
                 >
