@@ -60,7 +60,7 @@ const ReportTable = observer(() => {
                     </div>
                 </div>
                 <table className="w-full text-sm text-left rtl:text-right text-black">
-                    <thead className="uppercase bg-sky-500 font-bold">
+                    <thead className="uppercase bg-teal-300 font-bold">
                         <tr>
                             <th scope="col" className="px-6 py-3" />
                             <th scope="col" className="px-6 py-3">
@@ -84,7 +84,7 @@ const ReportTable = observer(() => {
                     </thead>
                     <tbody>
                         {userStore.reports.slice().sort((a, b) => a.monthNumber - b.monthNumber).map((report, index) =>
-                            <tr key={index} className="bg-sky-500 font-bold border-b-2 border-black">
+                            <tr key={index} className="bg-teal-300 font-bold border-b-2 border-black">
                                 <td scope="row" className="px-6 py-4">
                                     {report.monthNumber}
                                 </td>
