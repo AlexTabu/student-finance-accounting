@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React, { useState } from "react";
 import userStore from "../stores/UserStore";
+import "aos/dist/aos.css";
 
 const ModifyMonthModal = observer(({ report, handleClose }) => {
     const [formData, setFormData] = useState({
@@ -32,10 +33,16 @@ const ModifyMonthModal = observer(({ report, handleClose }) => {
         <div
             tabIndex="-1"
             aria-hidden="true"
-            className="bg-black bg-opacity-30 static overflow-y-auto overflow-x-hidden fixed top-0
+            className="bg-black bg-opacity-30 transition backdrop-filter backdrop-blur-sm static overflow-y-auto overflow-x-hidden fixed top-0
                 right-0 left-0 bottom-0 z-50 justify-center flex items-center w-full md:inset-0 h-full"
         >
-            <div className="relative p-4 w-full max-w-md max-h-full">
+            <div className="relative p-4 w-full max-w-md max-h-full"
+                data-aos="fade-up"
+                data-aos-offset="0"
+                data-aos-delay={100}
+                data-aos-duration="300"
+                data-aos-once="true"
+            >
                 <div className="relative rounded-md shadow bg-gray-700">
                     <div
                         className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600"
