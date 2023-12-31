@@ -22,3 +22,8 @@ html, body {
   width: 0px;
   background-color: rgba(128, 0, 128, 0);
 }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
