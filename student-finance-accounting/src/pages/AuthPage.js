@@ -16,7 +16,7 @@ const AuthPage = observer(() => {
             appStore.setAuthenticated(true);
             navigate("/results");
         } else {
-            window.alert('Invalid credentials!')
+            window.alert('Invalid credentials!');
         }
     };
 

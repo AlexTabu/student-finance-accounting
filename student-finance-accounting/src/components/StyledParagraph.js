@@ -1,5 +1,4 @@
 import React from "react";
-import { purpleHoverStyle } from "../constants";
 
 const StyledParagraph = ({text}) => {
     return (

@@ -1,6 +1,5 @@
 import React from "react";
 import "aos/dist/aos.css";
-import { purpleHoverStyle } from "../constants";
 import StyledParagraphWithLink from "../components/StyledParagraphWithLink";
 import StyledParagraph from "../components/StyledParagraph";
 
@@ -21,7 +20,7 @@ const DeveloperPage = () => {
                     data-aos="fade-left"
                     data-aos-delay="100"
                     src="/me.png"
-                    alt="My photo"
+                    alt="Developer"
                 />
             </div>
             <div

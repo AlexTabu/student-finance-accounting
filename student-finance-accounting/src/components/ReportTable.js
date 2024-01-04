@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import "aos/dist/aos.css";
 import userStore from "../stores/UserStore";
 import StyledSavings from "./StyledSavings";
-import ModifyMonthModal from "./ModifyMonthModal";
+import ModifyFinancialReportModal from "./ModifyFinancialReportModal";
 import { purpleHoverStyle, tealHoverStyle } from "../constants";
 import { useNavigate } from "react-router-dom";
 
@@ -73,6 +73,9 @@ const ReportTable = observer(() => {
                                 Expenses
                             </th>
                             <th scope="col" className="px-6 py-3">
+                                Type
+                            </th>
+                            <th scope="col" className="px-6 py-3">
                                 Savings in UAH
                             </th>
                             <th scope="col" className="px-6 py-3">
@@ -83,19 +86,22 @@ const ReportTable = observer(() => {
                         </tr>
                     </thead>
                     <tbody>
-                        {userStore.reports.slice().sort((a, b) => a.monthNumber - b.monthNumber).map((report, index) =>
+                        {userStore.reports.slice().sort((a, b) => a.monthData.id - b.monthData.id).map((report, index) =>
                             <tr key={index} className="bg-teal-300 font-bold border-b-2 border-black">
-                                <td scope="row" className="px-6 py-4">
-                                    {report.monthNumber}
+                                <td className="px-6 py-4">
+                                    {report.monthData.id}
                                 </td>
-                                <td scope="row" className="px-6 py-4">
-                                    {report.month}
+                                <td className="px-6 py-4">
+                                    {report.monthData.name}
                                 </td>
                                 <td className="px-6 py-4">
                                     {report.incomeUah}
                                 </td>
                                 <td className="px-6 py-4">
                                     {report.expensesUah}
+                                </td>
+                                <td className="px-6 py-4">
+                                    {report.expenseData.name}
                                 </td>
                                 <td className="px-6 py-4">
                                     {report.savingsUah}
@@ -114,7 +120,7 @@ const ReportTable = observer(() => {
                     </tbody>
                 </table>
                 {monthReportToModify &&
-                    <ModifyMonthModal report={monthReportToModify} handleClose={() => setMonthReportToModify(null)} />
+                    <ModifyFinancialReportModal report={monthReportToModify} handleClose={() => setMonthReportToModify(null)} />
                 }
             </div>
     );

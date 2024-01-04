@@ -2,14 +2,17 @@ import { observer } from "mobx-react-lite";
 import React, { useState } from "react";
 import userStore from "../stores/UserStore";
 import "aos/dist/aos.css";
+import { expenseTypes } from "../constants";
+import Dropdown from "./Dropdown";
 
-const ModifyMonthModal = observer(({ report, handleClose }) => {
+const ModifyFinancialReportModal = observer(({ report, handleClose }) => {
     const [formData, setFormData] = useState({
         incomeUah: report.incomeUah,
         expensesUah: report.expensesUah,
+        expenseData: report.expenseData,
     });
 
-    const handleChange = (event) => {
+    const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData({
             ...formData,
@@ -17,16 +20,55 @@ const ModifyMonthModal = observer(({ report, handleClose }) => {
         });
     };
 
+    const handleExpenseDropdownChange = (expenseData) => {
+        setFormData({
+            ...formData,
+            expenseData: expenseData,
+        });
+    };
+
     const handleSubmit = (event) => {
+        event.preventDefault();
+
         const form = event.target;
         if (form.checkValidity()) {
             userStore.updateReport({
-                monthNumber: report.monthNumber,
+                id: report.id,
                 incomeUah: Number(formData.incomeUah),
-                expensesUah: Number(formData.expensesUah)
+                expensesUah: Number(formData.expensesUah),
+                expenseData: formData.expenseData,
             });
             handleClose();
         }
+    }
+
+    const checkIfExpenseTypeDisabled = (el) => {
+        let monthReports =  userStore.reports.filter(storeReport =>
+            storeReport.monthData.name === report.monthData.name   
+        );
+
+        return monthReports.some(report =>
+            report.expenseData.name === el.name
+        );
+    }
+
+    const dropdownStyleSettings = {
+        buttonWidth: 'w-[23.5rem]',
+        buttonHeight: 'h-[2.6rem]',
+        buttonTextSize: 'text-lg',
+        backgroundColor: 'bg-gray-600',
+        selectorLabelWidth: 'w-6',
+        selectorLabelHeight: 'h-6',
+        dropdownWidth: 'w-[23.5rem]',
+        dropdownHeight: 'h-[8rem]',
+    }
+
+    const dropdownSettings = {
+        initialSelect: formData.expenseData,
+        onSelect: handleExpenseDropdownChange,
+        itemsCategory: 'Expense',
+        items: expenseTypes,
+        checkIfDisabled: checkIfExpenseTypeDisabled
     }
 
     return (
@@ -45,10 +87,10 @@ const ModifyMonthModal = observer(({ report, handleClose }) => {
             >
                 <div className="relative rounded-md shadow bg-gray-700">
                     <div
-                        className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600"
+                        className="flex items-center justify-between p-5 border-b rounded-t border-gray-600"
                     >
                         <h3 className="text-lg font-semibold text-white">
-                            {'Edit report for ' + report.month}
+                            {'Edit report for ' + report.monthData.name}
                         </h3>
                         <button
                             className="outline-none text-white bg-gray-700 focus:ring-4 focus:ring-purple-700
@@ -74,46 +116,57 @@ const ModifyMonthModal = observer(({ report, handleClose }) => {
                             <span className="sr-only">Close modal</span>
                         </button>
                     </div>
-                    <form onSubmit={handleSubmit} className="p-4 md:p-5">
-                        <div className="grid gap-4 mb-4 grid-cols-2">
-                            <div className="col-span-2 sm:col-span-1">
+                    <form onSubmit={handleSubmit} className="p-5">
+                        <div className="grid gap-5 grid-cols-2">
+                            <div className="col-span-1">
                                 <label className="block mb-2 text-sm font-medium text-white">Income (UAH)</label>
                                 <input
                                     name="incomeUah"
                                     value={formData.incomeUah}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                     type="number"
                                     pattern="[0-9]*"
                                     min='1'
+                                    max='99999999'
                                     className="outline-none bg-gray-600 border border-gray-500 text-white
-                                        text-sm font-bold rounded-md focus:ring focus:ring-purple-700
+                                        text-sm font-medium rounded-md focus:ring focus:ring-purple-300
                                         focus:border-0 block w-full p-2.5"
                                     required=""
                                 />
                             </div>
-                            <div className="col-span-2 sm:col-span-1">
+                            <div className="col-span-1">
                                 <label className="block mb-2 text-sm font-medium text-white">Expenses (UAH)</label>
                                 <input
                                     name="expensesUah"
                                     value={formData.expensesUah}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                     type="number"
                                     pattern="[0-9]*"
                                     min='1'
+                                    max='99999999'
                                     className="outline-none bg-gray-600 border border-gray-500 text-white
-                                        text-sm font-bold rounded-md focus:ring focus:ring-purple-700
+                                        text-sm font-medium rounded-md focus:ring focus:ring-purple-300
                                         focus:border-0 block w-full p-2.5"
                                     required=""
                                 />
                             </div>
+                            <div className="col-span-2">
+                                <Dropdown
+                                    settings={dropdownSettings}
+                                    styleSettings={dropdownStyleSettings}
+                                />
+                            </div>
+                            <div>
+                                <button
+                                    type="submit"
+                                    className="outline-none text-white bg-purple-700 hover:bg-purple-600
+                                        transition-all duration-300 focus:ring-4 focus:ring-purple-300
+                                        rounded-md text-sm font-medium px-5 py-2.5 text-center"
+                                    >
+                                    Confirm
+                                </button>
+                            </div>
                         </div>
-                        <button
-                            className="outline-none text-white bg-purple-700 hover:bg-purple-600
-                                transition-all duration-300 focus:ring-4 focus:ring-purple-300 font-medium
-                                rounded-md text-sm px-5 py-2.5 text-center"
-                        >
-                            Confirm
-                        </button>
                     </form>
                 </div>
             </div>
@@ -121,4 +174,4 @@ const ModifyMonthModal = observer(({ report, handleClose }) => {
     );
 });
 
-export default ModifyMonthModal;
+export default ModifyFinancialReportModal;

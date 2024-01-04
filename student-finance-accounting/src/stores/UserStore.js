@@ -1,5 +1,16 @@
 import { flow, types } from "mobx-state-tree";
 import { convertUah } from "../helpers/UsdConverter";
+import { v4 as uuid } from "uuid";
+
+const MonthData = types.model({
+    name: types.string,
+    id: types.number,
+});
+
+const ExpenseData = types.model({
+    name: types.string,
+    id: types.number,
+});
 
 const UserStore = types.model("UserStore", {
     totalSavingsUah: 0,
@@ -7,8 +18,9 @@ const UserStore = types.model("UserStore", {
     totalSavingsEur: 0,
     reports: types.array(
         types.model({
-            monthNumber: types.number,
-            month: types.string,
+            id: types.identifier,
+            monthData: MonthData,
+            expenseData: ExpenseData,
             incomeUah: types.number,
             expensesUah: types.number,
             savingsUah: types.number,
@@ -22,7 +34,7 @@ const UserStore = types.model("UserStore", {
     }
 }))
 .actions((self) => ({
-    createReport: flow(function* ({monthNumber, month, incomeUah, expensesUah }) {
+    createReport: flow(function* ({monthData, incomeUah, expensesUah, expenseData}) {
         const savingsUah = incomeUah > expensesUah ? incomeUah - expensesUah : 0;
 
         self.totalSavingsUah = self.totalSavingsUah + savingsUah;
@@ -30,8 +42,9 @@ const UserStore = types.model("UserStore", {
         self.totalSavingsEur = yield convertUah(self.totalSavingsUah, 'EUR');
 
         self.reports.push({
-            monthNumber,
-            month,
+            id: uuid(),
+            monthData,
+            expenseData,
             incomeUah,
             expensesUah,
             savingsUah: savingsUah,
@@ -39,12 +52,12 @@ const UserStore = types.model("UserStore", {
         });
     }),
     deleteReport(report) {
-        let filteredReports = self.reports.filter(el => el.month !== report.month);
+        let filteredReports = self.reports.filter(el => el.id !== report.id);
         self.reports = filteredReports;
     },
-    updateReport: flow(function* ({monthNumber, incomeUah, expensesUah }) {      
+    updateReport: flow(function* ({id, incomeUah, expensesUah, expenseData }) {      
         const savingsUah = incomeUah > expensesUah ? incomeUah - expensesUah : 0;
-        const report = self.reports.find(report => report.monthNumber === monthNumber);
+        const report = self.reports.find(report => report.id === id);
 
         self.totalSavingsUah = self.totalSavingsUah - report.savingsUah + savingsUah;
         self.totalSavingsUsd = yield convertUah(self.totalSavingsUah, 'USD');
@@ -53,6 +66,7 @@ const UserStore = types.model("UserStore", {
         report.incomeUah = incomeUah;
         report.expensesUah = expensesUah;
         report.savingsUah = savingsUah;
+        report.expenseData = expenseData;
         report.savingsUsd = yield convertUah(savingsUah, 'USD');
     }),
 }));

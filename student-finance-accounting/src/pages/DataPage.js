@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import "aos/dist/aos.css";
 import Dropdown from "../components/Dropdown";
 import StyledButton from "../components/StyledButton";
-import { purpleHoverStyle } from "../constants";
+import { expenseTypes, months, purpleHoverStyle } from "../constants";
 import AnimatedContainer from "../components/AnimatedContainer";
 import userStore from "../stores/UserStore";
 import { useNavigate } from "react-router-dom";
@@ -12,10 +12,15 @@ const DataPage = observer(() => {
     const [incomeUah, setIncomeUah] = useState("");
     const [expensesUah, setExpensesUah] = useState("");
     const [selectedMonth, setSelectedMonth] = useState(null);
+    const [selectedExpenseType, setSelectedExpenseType] = useState(null);
     const navigate = useNavigate();
 
-    const handleDropdownChange = (month) => {
+    const handleMonthDropdownChange = (month) => {
         setSelectedMonth(month);
+    };
+
+    const handleExpenseTypeDropdownChange = (expenseType) => {
+        setSelectedExpenseType(expenseType);
     };
 
     const handleIncomeChange = (event) => {
@@ -29,20 +34,90 @@ const DataPage = observer(() => {
     };
 
     const handleSubmit = async () => {
-        if (!selectedMonth || !selectedMonth || !expensesUah) {
+        if (!selectedMonth || !selectedExpenseType || !incomeUah || !expensesUah) {
             window.alert('All fields are required!')
+            return;
         }
 
         const report = {
-            monthNumber: selectedMonth.monthNumber,
-            month: selectedMonth.monthName,
+            monthData: {
+                name: selectedMonth.name,
+                id: selectedMonth.id,
+            },
+            expenseData: {
+                name: selectedExpenseType.name,
+                id: selectedExpenseType.id,
+            },
             incomeUah: Number(incomeUah),
-            expensesUah: Number(expensesUah)
+            expensesUah: Number(expensesUah),
         };
 
         await userStore.createReport(report);
         navigate("/results");
     };
+
+    const checkIfMonthDisabled = (el) => {
+        let monthReports =  userStore.reports.filter(report =>
+            report.monthData.name === el.name   
+        )
+    
+        return selectedExpenseType
+        ?
+            userStore.reports.some(report =>
+                report.expenseData.name === selectedExpenseType.name &&
+                report.monthData.name === el.name   
+            )
+        :
+            expenseTypes.every(expenseType => 
+                monthReports.some(report =>
+                    report.expenseData.name === expenseType.name
+                )
+            )
+    }
+
+    const checkIfExpenseTypeDisabled = (el) => {
+        let expenseTypeReports =  userStore.reports.filter(report =>
+            report.expenseData.name === el.name   
+        )
+    
+        return selectedMonth
+        ?
+            userStore.reports.some(report =>
+                report.monthData.name === selectedMonth.name &&
+                report.expenseData.name === el.name   
+            )
+        :
+            months.every(month => 
+                expenseTypeReports.some(report =>
+                    report.monthData.name === month.name
+                )
+            )
+    }
+
+    const dropdownStyleSettings = {
+        buttonWidth: 'w-[26rem]',
+        buttonHeight: 'h-[3.5rem]',
+        buttonTextSize: 'text-3xl',
+        backgroundColor: 'bg-black',
+        selectorLabelWidth: 'w-8',
+        selectorLabelHeight: 'h-8',
+        dropdownWidth: 'w-[26rem]',
+        dropdownHeight: 'h-[10.5rem]',
+    }
+
+    const monthDropdownSettings = {
+        onSelect: handleMonthDropdownChange,
+        itemsCategory: 'Month',
+        items: months,
+        checkIfDisabled: checkIfMonthDisabled,
+    }
+
+    const expenseTypeDropdownSettings = {
+        onSelect: handleExpenseTypeDropdownChange,
+        itemsCategory: 'Expense',
+        items: expenseTypes,
+        checkIfDisabled: checkIfExpenseTypeDisabled,
+    }
 
     return (
         <div>
@@ -71,17 +146,10 @@ const DataPage = observer(() => {
                     alt="Student"
                 />
             </div>
-            <div className="flex flex-col items-center h-80">
+            <div className="flex flex-col items-center h-80 space-y-11">
                 <div
-                    className="flex flex-row justify-center max-w-full my-10 text-white space-x-8"
+                    className="flex flex-row justify-center w-full mt-11 text-white space-x-40"
                 >
-                    <AnimatedContainer
-                        element={
-                            <Dropdown onSelect={handleDropdownChange}/>
-                        }
-                        animationDelay={100}
-                    />
-
                     <AnimatedContainer
                         element={
                             <input
@@ -90,8 +158,9 @@ const DataPage = observer(() => {
                                 onChange={handleIncomeChange}
                                 type="number"
                                 min='1'
+                                max='99999999'
                                 className="border-transparent bg-black text-white text-3xl font-semibold rounded-md
-                                    focus:ring focus:ring-purple-700 focus:border-0 w-full py-2 w-[20rem] h-[3.5rem]"
+                                    focus:ring focus:ring-purple-700 focus:border-0 w-[26rem] h-[3.5rem]"
                                 required=""
                                 placeholder="Income (UAH)"
                             />
@@ -106,13 +175,36 @@ const DataPage = observer(() => {
                                 onChange={handleExpensesChange}
                                 type="number"
                                 min='1'
+                                max='99999999'
                                 className="border-transparent bg-black text-white text-3xl font-semibold rounded-md
-                                    focus:ring focus:ring-purple-700 focus:border-0 w-full py-2 w-[20rem] h-[3.5rem]"
+                                    focus:ring focus:ring-purple-700 focus:border-0 w-[26rem] h-[3.5rem]"
                                 required=""
                                 placeholder="Expenses (UAH)"
                             />
                         }
                         animationDelay={500}
+                    />
+                </div>
+                <div
+                    className="flex flex-row justify-center w-full mt-11 text-white space-x-40"
+                >
+                    <AnimatedContainer
+                        element={
+                            <Dropdown
+                                settings={monthDropdownSettings}
+                                styleSettings={dropdownStyleSettings}
+                            />
+                        }
+                        animationDelay={100}
+                    />
+                    <AnimatedContainer
+                        element={
+                            <Dropdown
+                                settings={expenseTypeDropdownSettings}
+                                styleSettings={dropdownStyleSettings}
+                            />
+                        }
+                        animationDelay={100}
                     />
                 </div>
                 <div
