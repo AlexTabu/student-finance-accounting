@@ -75,7 +75,7 @@ const InstructionsPage = () => {
                 <p
                     className="w-3/4 flex-1 flex-col justify-center text-3xl font-bold"
                 >
-                    • axios making HTTP requests.
+                    • axios for making HTTP requests.
                 </p>
                 <p
                     className="w-3/4 flex-1 flex-col justify-center text-3xl font-bold"
