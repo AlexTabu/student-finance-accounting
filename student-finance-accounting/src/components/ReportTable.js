@@ -81,6 +81,9 @@ const ReportTable = observer(() => {
                             <th scope="col" className="px-6 py-3">
                                 Savings in USD
                             </th>
+                            <th scope="col" className="px-6 py-3">
+                                Savings in EUR
+                            </th>
                             <th scope="col" className="px-6 py-3" />
                             <th scope="col" className="px-6 py-3" />
                         </tr>
@@ -108,6 +111,9 @@ const ReportTable = observer(() => {
                                 </td>
                                 <td className="px-6 py-4">
                                     {report.savingsUsd}
+                                </td>
+                                <td className="px-6 py-4">
+                                    {report.savingsEur}
                                 </td>
                                 <td className="px-6 py-4">
                                     <StyledButton text='Edit' hoverStyle={purpleHoverStyle} clickHandler={() => setMonthReportToModify(report)} />

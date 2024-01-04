@@ -25,6 +25,7 @@ const UserStore = types.model("UserStore", {
             expensesUah: types.number,
             savingsUah: types.number,
             savingsUsd: types.number,
+            savingsEur: types.number,
         })
     ),
 })
@@ -48,7 +49,8 @@ const UserStore = types.model("UserStore", {
             incomeUah,
             expensesUah,
             savingsUah: savingsUah,
-            savingsUsd: yield convertUah(savingsUah, 'USD')
+            savingsUsd: yield convertUah(savingsUah, 'USD'),
+            savingsEur: yield convertUah(savingsUah, 'EUR')
         });
     }),
     deleteReport(report) {
@@ -68,6 +70,7 @@ const UserStore = types.model("UserStore", {
         report.savingsUah = savingsUah;
         report.expenseData = expenseData;
         report.savingsUsd = yield convertUah(savingsUah, 'USD');
+        report.savingsEur = yield convertUah(savingsUah, 'EUR');
     }),
 }));
 
