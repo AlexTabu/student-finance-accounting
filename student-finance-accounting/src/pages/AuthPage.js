@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 import appStore from "../stores/AppStore";
@@ -8,7 +8,12 @@ import { purpleHoverStyle } from "../constants";
 const AuthPage = observer(() => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
+    const usernameInputRef = useRef(null);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        usernameInputRef.current.focus();
+    }, [])
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -42,6 +47,7 @@ const AuthPage = observer(() => {
                                 </label>
                                 <div className="mt-2">
                                     <input
+                                        ref={usernameInputRef}
                                         id="login"
                                         name="login"
                                         value={login}
