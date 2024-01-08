@@ -57,6 +57,9 @@ const UserStore = types.model("UserStore", {
         let filteredReports = self.reports.filter(el => el.id !== report.id);
         self.reports = filteredReports;
     },
+    deleteAllReports() {
+        self.reports = [];
+    },
     updateReport: flow(function* ({id, incomeUah, expensesUah, expenseData }) {      
         const savingsUah = incomeUah > expensesUah ? incomeUah - expensesUah : 0;
         const report = self.reports.find(report => report.id === id);

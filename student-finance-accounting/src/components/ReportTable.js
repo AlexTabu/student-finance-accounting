@@ -63,30 +63,31 @@ const ReportTable = observer(() => {
                     <table className="w-full text-sm text-left rtl:text-right text-black">
                         <thead className="uppercase bg-teal-300 font-bold">
                             <tr>
-                                <th scope="col" className="px-6 py-3" />
-                                <th scope="col" className="px-6 py-3">
+                                <th scope="col" className="px-6 py-4" />
+                                <th scope="col" className="px-6 py-4">
                                     Month
                                 </th>
-                                <th scope="col" className="px-6 py-3">
+                                <th scope="col" className="px-6 py-4">
                                     Income
                                 </th>
-                                <th scope="col" className="px-6 py-3">
+                                <th scope="col" className="px-6 py-4">
                                     Expenses
                                 </th>
-                                <th scope="col" className="px-6 py-3">
+                                <th scope="col" className="px-6 py-4">
                                     Type
                                 </th>
-                                <th scope="col" className="px-6 py-3">
+                                <th scope="col" className="px-6 py-4">
                                     Savings in UAH
                                 </th>
-                                <th scope="col" className="px-6 py-3">
+                                <th scope="col" className="px-6 py-4">
                                     Savings in USD
                                 </th>
-                                <th scope="col" className="px-6 py-3">
+                                <th scope="col" className="px-6 py-4">
                                     Savings in EUR
                                 </th>
-                                <th scope="col" className="px-6 py-3" />
-                                <th scope="col" className="px-6 py-3" />
+                                <th scope="col" colSpan={2} className="px-6 py-4">
+                                    <StyledButton width={'w-[12.1rem]'} text='Delete all records' hoverStyle={purpleHoverStyle} clickHandler={() => userStore.deleteAllReports()} />
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
