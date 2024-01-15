@@ -59,9 +59,11 @@ const Dropdown = ({
             <button
                 ref={selectorRef}
                 type='button'
-                className={`inline-flex justify-center items-center focus:outline-none focus:ring focus:ring-purple-300
+                className={
+                    `inline-flex justify-center items-center focus:outline-none focus:ring focus:ring-purple-300
                     text-white ${buttonWidth} ${buttonHeight} ${buttonTextSize} font-semibold ${backgroundColor} ${purpleHoverStyle} transition-all duration-300
-                    rounded-md py-2 px-10`}
+                    rounded-md py-2 px-10`
+                }
                 onClick={toggleDropdown}
             >
                 {selectedItem ? itemsCategory + ': ' + selectedItem.name : 'Select ' + itemsCategory}
@@ -77,7 +79,13 @@ const Dropdown = ({
             </button>
 
             {isOpen &&
-                <div ref={dropdownRef} className={`absolute mt-4 ${dropdownWidth} ${dropdownHeight} scroll-smooth overflow-y-scroll custom-scrollbar rounded-md shadow-lg bg-white ring-4 ring-purple-300`}>
+                <div
+                    ref={dropdownRef}
+                    className={
+                        `absolute mt-4 ${dropdownWidth} ${dropdownHeight} scroll-smooth overflow-y-scroll
+                        custom-scrollbar rounded-md shadow-lg bg-white ring-4 ring-purple-300`
+                    }
+                >
                     {items.map(item => {
                             const disabled = checkIfDisabled(item);
                             return (
@@ -85,7 +93,11 @@ const Dropdown = ({
                                     type='button'
                                     key={item.id}
                                     onClick={() => handleItemClick(item.name, item.id)}
-                                    className={`${disabled ? 'pointer-events-none bg-gray-400 text-gray-700' : ''} w-full border-b-4 border-purple-300 px-4 py-2 text-sm font-bold text-black hover:bg-purple-300`}
+                                    className={
+                                        `${disabled ? 'pointer-events-none bg-gray-400 text-gray-700' : ''} w-full
+                                        border-b-4 border-purple-300 px-4 py-2 text-sm font-bold text-black hover:bg-purple-300
+                                        focus:outline-none focus:bg-purple-600`
+                                    }
                                     role="menuitem"
                                 >
                                     {item.name}
